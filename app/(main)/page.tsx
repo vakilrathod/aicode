@@ -56,45 +56,56 @@ export default function Home() {
       scrollTo({ delay: 0.5 });
     }
 
-    setStatus("creating");
-    setGeneratedCode("");
+    try {
+      setStatus("creating");
+      setGeneratedCode("");
 
-    let res = await fetch("/api/generateCode", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        shadcn,
-        messages: [{ role: "user", content: prompt }],
-      }),
-    });
+      let res = await fetch("/api/generateCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          shadcn,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
 
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-
-    if (!res.body) {
-      throw new Error("No response body");
-    }
-
-    const reader = res.body.getReader();
-    let receivedData = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        setGeneratedCode(`Error: ${errorMessage || res.statusText || 'Something went wrong'}`);
+        setStatus("initial");
+        return;
       }
-      receivedData += new TextDecoder().decode(value);
-      const cleanedData = removeCodeFormatting(receivedData);
-      setGeneratedCode(cleanedData);
-    }
 
-    setMessages([{ role: "user", content: prompt }]);
-    setInitialAppConfig({ model, shadcn });
-    setStatus("created");
+      if (!res.body) {
+        setGeneratedCode("Error: No response received from the server");
+        setStatus("initial");
+        return;
+      }
+
+      const reader = res.body.getReader();
+      let receivedData = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        receivedData += new TextDecoder().decode(value);
+        const cleanedData = removeCodeFormatting(receivedData);
+        setGeneratedCode(cleanedData);
+      }
+
+      setMessages([{ role: "user", content: prompt }]);
+      setInitialAppConfig({ model, shadcn });
+      setStatus("created");
+    } catch (error) {
+      console.error('Error generating code:', error);
+      setGeneratedCode(`Error: ${error instanceof Error ? error.message : 'Something went wrong'}`);
+      setStatus("initial");
+    }
   }
 
   useEffect(() => {
