@@ -9,11 +9,10 @@
 [build.environment]
   NODE_VERSION = "18.17.0"
   NPM_VERSION = "9.6.7"
-  ESBUILD_BINARY_PATH = "node_modules/@netlify/esbuild-linux-64/bin/esbuild"
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["prisma/**", "node_modules/@netlify/esbuild-linux-64/**"]
+  included_files = ["prisma/**"]
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
