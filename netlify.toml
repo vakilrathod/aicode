@@ -1,7 +1,11 @@
 [build]
-  command = "npm install && npm run build"
+  command = """
+    npx prisma generate
+    npm run build
+  """
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
   NPM_FLAGS = "--no-optional --no-audit --no-fund"
+  DATABASE_URL = "postgresql://dummy:dummy@localhost:5432/dummy"  # This will be overridden by Netlify env vars
