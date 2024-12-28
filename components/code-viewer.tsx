@@ -1,6 +1,6 @@
 "use client";
 
-import * as shadcnComponents from "@/utils/shadcn";
+import { shadcnComponents } from "@/utils/shadcn";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import {
   SandpackPreview,
@@ -103,7 +103,7 @@ let sharedOptions = {
 
 let sharedFiles = {
   "/lib/utils.ts": shadcnComponents.utils,
-  "/components/ui/accordion.tsx": shadcnComponents.accordian,
+  "/components/ui/accordion.tsx": shadcnComponents.accordion,
   "/components/ui/alert-dialog.tsx": shadcnComponents.alertDialog,
   "/components/ui/alert.tsx": shadcnComponents.alert,
   "/components/ui/avatar.tsx": shadcnComponents.avatar,
