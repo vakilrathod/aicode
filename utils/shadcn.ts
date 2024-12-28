@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 `;
-export const accordian = `import * as React from "react"
+export const accordion = `import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 
@@ -1242,7 +1242,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-gray-100 data-[state=open]:bg-gray-100 dark:focus:bg-gray-800 dark:data-[state=open]:bg-gray-800",
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-gray-100 focus:text-gray-900 data-[state=open]:bg-gray-100 dark:focus:bg-gray-800 dark:focus:text-gray-50",
       inset && "pl-8",
       className
     )}
@@ -1900,7 +1900,7 @@ PaginationItem.displayName = "PaginationItem"
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">
+  React.ComponentProps<"a"
 
 const PaginationLink = ({
   className,
@@ -2874,7 +2874,7 @@ let count = 0
 
 function genId() {
   count = (count + 1) % Number.MAX_SAFE_INTEGER
-  return count.toString()
+  count.toString()
 }
 
 type ActionType = typeof actionTypes
@@ -2985,7 +2985,7 @@ function dispatch(action: Action) {
   })
 }
 
-type Toast = Omit<ToasterToast, "id">
+type Toast = Omit<ToasterToast, "id"
 
 function toast({ ...props }: Toast) {
   const id = genId()
@@ -3040,59 +3040,59 @@ export { useToast, toast }
 `;
 
 export const shadcnComponents = {
-  utils: utils,
-  accordian: accordian,
-  alertDialog: alertDialog,
-  alert: alert,
-  avatar: avatar,
-  badge: badge,
-  breadcrumb: breadcrumb,
-  button: button,
-  calendar: calendar,
-  card: card,
-  carousel: carousel,
-  checkbox: checkbox,
-  collapsible: collapsible,
-  dialog: dialog,
-  drawer: drawer,
-  dropdownMenu: dropdownMenu,
-  hoverCard: hoverCard,
-  input: input,
-  label: label,
-  menuBar: menuBar,
-  navigationMenu: navigationMenu,
-  pagination: pagination,
-  popover: popover,
-  progress: progress,
-  radioGroup: radioGroup,
-  select: select,
-  separator: separator,
-  skeleton: skeleton,
-  slider: slider,
-  switchComponent: switchComponent,
-  table: table,
-  tabs: tabs,
-  textarea: textarea,
-  toast: toast,
-  toaster: toaster,
-  toggleGroup: toggleGroup,
-  toggle: toggle,
-  tooltip: tooltip,
-  useToast: useToast,
+  utils,
+  accordion: accordion,
+  alertDialog,
+  alert,
+  avatar,
+  badge,
+  breadcrumb,
+  button,
+  calendar,
+  card,
+  carousel,
+  checkbox,
+  collapsible,
+  dialog,
+  drawer,
+  dropdownMenu,
+  hoverCard,
+  input,
+  label,
+  menuBar,
+  navigationMenu,
+  pagination,
+  popover,
+  progress,
+  radioGroup,
+  select,
+  separator,
+  skeleton,
+  slider,
+  switchComponent,
+  table,
+  tabs,
+  textarea,
+  toast,
+  toaster,
+  toggleGroup,
+  toggle,
+  tooltip,
+  useToast,
 };
 
 export const essentialShadcnComponents = {
-  utils: utils,
-  avatar: avatar,
-  button: button,
-  card: card,
-  checkbox: checkbox,
-  input: input,
-  label: label,
-  radioGroup: radioGroup,
-  select: select,
-  textarea: textarea,
-  // badge: badge,
-  // dialog: dialog,
-  // table: table,
+  utils,
+  avatar,
+  button,
+  card,
+  checkbox,
+  input,
+  label,
+  radioGroup,
+  select,
+  textarea,
+  // badge,
+  // dialog,
+  // table,
 };
