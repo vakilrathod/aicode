@@ -1,13 +1,7 @@
 [build]
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
-  PYTHON_VERSION = "3.9"
-  CI_PYTHON_VERSION = "3.9"
-  SKIP_PYTHON_SETUP = "true"
-  USE_PYTHON = "false"
-  NETLIFY_USE_PYTHON = "false"
-  NETLIFY_EXPERIMENTAL_BUILD_RUST_WITH_PYTHON = "false"
+  NODE_VERSION = "18.17.0"
+  NPM_FLAGS = "--no-optional --no-audit --no-fund"
