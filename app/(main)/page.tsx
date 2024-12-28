@@ -97,119 +97,126 @@ export default function Home() {
     setGeneratedCode("");
 
     try {
-      await handleMessage(prompt);
+      const code = await handleMessage(prompt);
       setInitialAppConfig({ model, shadcn });
       setStatus("created");
       setDialogOpen(true);
     } catch (error) {
-      console.error("Error creating app:", error);
+      console.error("Error:", error);
       setStatus("initial");
     }
   }
 
-  return (
-    <main className="mt-12 flex w-full flex-1 flex-col items-center px-4 text-center sm:mt-1">
-      <a
-        className="mb-4 inline-flex h-7 shrink-0 items-center gap-[9px] rounded-[50px] border-[0.5px] border-solid border-[#E6E6E6] bg-[rgba(234,238,255,0.65)] bg-gray-100 px-7 py-5 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.25)]"
-        href="https://ai.google.dev/gemini-api/docs"
-        target="_blank"
-      >
-        <span className="text-center">
-          Powered by <span className="font-medium">Gemini API</span>
-        </span>
-      </a>
-      <h1 className="my-6 max-w-3xl text-4xl font-bold text-white sm:text-6xl">
-        Turn your <span className="text-blue-400">Vizion</span>
-        <br /> into an <span className="text-blue-400">app</span>
-      </h1>
+  async function updateApp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-      <form className="w-full max-w-xl" onSubmit={createApp}>
-        <fieldset disabled={loading} className="disabled:opacity-75">
-          <div className="relative mt-5">
-            <div className="absolute -inset-2 rounded-[32px] bg-gray-300/50" />
-            <div className="relative flex rounded-3xl bg-white shadow-sm">
-              <div className="relative flex flex-grow items-stretch focus-within:z-10">
-                <textarea
-                  rows={3}
-                  required
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  name="prompt"
-                  className="w-full resize-none rounded-l-3xl bg-transparent px-6 py-5 text-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
-                  placeholder="Build me a calculator app..."
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-3xl px-3 py-2 text-sm font-semibold text-blue-500 hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 disabled:text-gray-900"
-              >
-                {status === "creating" ? (
-                  <LoadingDots color="black" style="large" />
-                ) : (
-                  <ArrowLongRightIcon className="-ml-0.5 size-6" />
-                )}
-              </button>
-            </div>
+    setStatus("updating");
+
+    try {
+      await handleMessage(modification);
+      setStatus("updated");
+    } catch (error) {
+      console.error("Error:", error);
+      setStatus("created");
+    }
+  }
+
+  return (
+    <div className="mx-auto flex min-h-screen w-full max-w-screen-xl flex-col gap-8 px-6 py-12">
+      <div className="flex flex-col items-start gap-2">
+        <h1 className="text-2xl font-semibold sm:text-4xl">
+          VizionCoder Alpha
+        </h1>
+        <p className="text-lg text-gray-600">
+          Generate React components with Gemini 2.0 Flash
+        </p>
+      </div>
+
+      <form onSubmit={createApp} className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="prompt"
+              className="flex items-center gap-2 font-medium"
+            >
+              What would you like to create?
+            </label>
+            <textarea
+              id="prompt"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="A beautiful landing page with a hero section, features grid, and pricing table..."
+              className="h-32 rounded-xl border border-gray-300 bg-gray-50 p-4 font-mono text-sm outline-none placeholder:text-gray-400 focus:border-gray-400"
+            />
           </div>
-          <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:items-center sm:gap-8">
-            <div className="flex items-center justify-between gap-3 sm:justify-center">
-              <p className="text-gray-500 sm:text-xs">Model:</p>
-              <Select.Root
-                name="model"
-                disabled={loading}
-                value={model}
-                onValueChange={(value) => setModel(value)}
-              >
-                <Select.Trigger className="group flex w-60 max-w-xs items-center rounded-2xl border-[6px] border-gray-300 bg-white px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">
+
+          <div className="flex flex-wrap items-start gap-8">
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-2 font-medium">
+                Model
+              </label>
+              <Select.Root value={model} onValueChange={setModel}>
+                <Select.Trigger className="inline-flex h-10 items-center justify-between gap-2 rounded-lg border bg-gray-50 px-3 outline-none focus:border-gray-400">
                   <Select.Value />
-                  <Select.Icon className="ml-auto">
-                    <ChevronDownIcon className="size-6 text-gray-300 group-focus-visible:text-gray-500 group-enabled:group-hover:text-gray-500" />
+                  <Select.Icon>
+                    <ChevronDownIcon className="h-4 w-4" />
                   </Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
-                  <Select.Content className="overflow-hidden rounded-md bg-white shadow-lg">
-                    <Select.Viewport className="p-2">
+                  <Select.Content className="overflow-hidden rounded-lg border bg-white shadow-lg">
+                    <Select.Viewport>
                       {models.map((model) => (
                         <Select.Item
                           key={model.value}
                           value={model.value}
-                          className="flex cursor-pointer items-center rounded-md px-3 py-2 text-sm data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
+                          className="flex h-10 cursor-pointer items-center gap-2 px-3 py-2 outline-none hover:bg-gray-100 focus:bg-gray-100"
                         >
-                          <Select.ItemText asChild>
-                            <span className="inline-flex items-center gap-2 text-gray-500">
-                              <div className="size-2 rounded-full bg-green-500" />
-                              {model.label}
-                            </span>
-                          </Select.ItemText>
-                          <Select.ItemIndicator className="ml-auto">
-                            <CheckIcon className="size-5 text-blue-600" />
+                          <Select.ItemText>{model.label}</Select.ItemText>
+                          <Select.ItemIndicator>
+                            <CheckIcon className="h-4 w-4" />
                           </Select.ItemIndicator>
                         </Select.Item>
                       ))}
                     </Select.Viewport>
-                    <Select.ScrollDownButton />
-                    <Select.Arrow />
                   </Select.Content>
                 </Select.Portal>
               </Select.Root>
             </div>
 
-            <div className="flex h-full items-center justify-between gap-3 sm:justify-center">
-              <label className="text-gray-500 sm:text-xs" htmlFor="shadcn">
-                shadcn/ui:
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-2 font-medium">
+                Use shadcn/ui
               </label>
               <Switch.Root
-                className="group flex w-20 max-w-xs items-center rounded-2xl border-[6px] border-gray-300 bg-white p-1.5 text-sm shadow-inner transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 data-[state=checked]:bg-blue-500"
-                id="shadcn"
                 checked={shadcn}
                 onCheckedChange={setShadcn}
+                className="relative h-6 w-11 cursor-pointer rounded-full bg-gray-200 outline-none transition-colors data-[state=checked]:bg-blue-500"
               >
-                <Switch.Thumb className="block size-4 rounded-full bg-white transition-transform duration-100 will-change-transform group-data-[state=checked]:translate-x-[150%]" />
+                <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform duration-100 will-change-transform data-[state=checked]:translate-x-[22px]" />
               </Switch.Root>
             </div>
           </div>
-        </fieldset>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button
+            type="submit"
+            disabled={loading || !prompt}
+            className="group flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400"
+          >
+            {loading ? (
+              <>
+                <LoadingDots />
+                {status === "creating" ? "Creating..." : "Updating..."}
+              </>
+            ) : (
+              <>
+                Create
+                <ArrowLongRightIcon className="h-5 w-5 transition group-hover:translate-x-0.5" />
+              </>
+            )}
+          </button>
+        </div>
       </form>
 
       <CodeDialog
@@ -219,6 +226,6 @@ export default function Home() {
         initialPrompt={prompt}
         onSendMessage={handleMessage}
       />
-    </main>
+    </div>
   );
 }

@@ -28,13 +28,25 @@ export async function POST(req: Request) {
   let { model, messages, shadcn } = result.data;
   let systemPrompt = getSystemPrompt(shadcn);
 
-  const geminiModel = genAI.getGenerativeModel({model: model});
+  const geminiModel = genAI.getGenerativeModel({ model: model });
 
-  const geminiStream = await geminiModel.generateContentStream(
-    messages[0].content + systemPrompt + "\nPlease ONLY return code, NO backticks or language names. Don't start with \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`."
-  );
+  // Convert messages to Gemini format and add system prompt
+  const history = messages.slice(0, -1).map(msg => ({
+    role: msg.role === "user" ? "user" : "model",
+    parts: [{ text: msg.content }],
+  }));
 
-  console.log(messages[0].content + systemPrompt + "\nPlease ONLY return code, NO backticks or language names. Don't start with \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`.")
+  const chat = geminiModel.startChat({
+    history,
+    generationConfig: {
+      maxOutputTokens: 4000,
+    },
+  });
+
+  const lastMessage = messages[messages.length - 1].content;
+  const prompt = lastMessage + systemPrompt + "\nPlease ONLY return code, NO backticks or language names. Don't start with \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`.";
+
+  const geminiStream = await chat.sendMessageStream(prompt);
 
   const readableStream = new ReadableStream({
     async start(controller) {
@@ -101,7 +113,6 @@ function getSystemPrompt(shadcn: boolean) {
 
   console.log("Here is the system prompt");
   console.log(systemPrompt);
-
 
   return dedent(systemPrompt);
 }
