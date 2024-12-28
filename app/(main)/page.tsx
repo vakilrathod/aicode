@@ -117,7 +117,7 @@ export default function Home() {
         </span>
       </a>
       <h1 className="my-6 max-w-3xl text-4xl font-bold text-gray-800 sm:text-6xl">
-        Turn your <span className="text-blue-600">idea</span>
+        Turn your <span className="text-blue-600">Vizion</span>
         <br /> into an <span className="text-blue-600">app</span>
       </h1>
 

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-image: url('https://cdn.leonardo.ai/users/6cd4ea3f-13be-4f8f-8b23-66cb07a2d68b/generations/33520e9b-43ac-4f77-865a-93341fc61526/Portrait_Perfect_a_beautiful_modern_city_skyline_at_dusk_3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
 @font-face {
   font-family: "Aeonik";
   src: url("/Aeonik/Aeonik-Regular.ttf");

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-let title = "Gemini Coder – AI Code Generator";
-let description = "Generate your next app with Gemini";
+let title = "VizionCoder Alpha – AI Code Generator";
+let description = "Generate your next app with VizionCoder";
 let url = "https://llamacoder.io/";
-let ogimage = "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg";
-let sitename = "geminicoder.io";
+let ogimage = "https://cdn.leonardo.ai/users/6cd4ea3f-13be-4f8f-8b23-66cb07a2d68b/generations/33520e9b-43ac-4f77-865a-93341fc61526/Portrait_Perfect_a_beautiful_modern_city_skyline_at_dusk_3.jpg";
+let sitename = "vizioncoder.io";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
