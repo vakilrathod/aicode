@@ -116,9 +116,9 @@ export default function Home() {
           Powered by <span className="font-medium">Gemini API</span>
         </span>
       </a>
-      <h1 className="my-6 max-w-3xl text-4xl font-bold text-gray-800 sm:text-6xl">
-        Turn your <span className="text-blue-600">Vizion</span>
-        <br /> into an <span className="text-blue-600">app</span>
+      <h1 className="my-6 max-w-3xl text-4xl font-bold text-white sm:text-6xl">
+        Turn your <span className="text-blue-400">Vizion</span>
+        <br /> into an <span className="text-blue-400">app</span>
       </h1>
 
       <form className="w-full max-w-xl" onSubmit={createApp}>
