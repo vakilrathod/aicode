@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog } from "@radix-ui/react-dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -47,17 +47,17 @@ export default function CodeDialog({
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] flex h-[90vh] w-[90vw] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
+    <DialogPrimitive.Root open={isOpen} onOpenChange={onClose}>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <DialogPrimitive.Content className="fixed left-[50%] top-[50%] flex h-[90vh] w-[90vw] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
           {/* Left side - Chat */}
           <div className="flex w-1/3 flex-col rounded-lg bg-gray-50 p-4">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Chat</h2>
-              <Dialog.Close className="rounded-full p-1.5 hover:bg-gray-200">
+              <DialogPrimitive.Close className="rounded-full p-1.5 hover:bg-gray-200">
                 <XMarkIcon className="h-5 w-5" />
-              </Dialog.Close>
+              </DialogPrimitive.Close>
             </div>
             
             {/* Messages */}
@@ -100,8 +100,8 @@ export default function CodeDialog({
           <div className="w-2/3">
             <CodeViewer code={currentCode} showEditor={false} />
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 }
