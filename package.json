@@ -46,6 +46,7 @@
     "date-fns": "^3.2.0",
     "dedent": "^1.5.3",
     "embla-carousel-react": "^8.0.0-rc19",
+    "esbuild": "0.19.11",
     "eventsource-parser": "^1.1.2",
     "framer-motion": "^11.3.19",
     "lucide-react": "^0.312.0",
@@ -73,5 +74,8 @@
     "rimraf": "^5.0.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "optionalDependencies": {
+    "@esbuild/linux-x64": "0.19.11"
   }
 }
