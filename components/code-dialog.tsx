@@ -55,8 +55,10 @@ export default function CodeDialog({
           <div className="flex w-1/3 flex-col rounded-lg bg-gray-50 p-4">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Chat</h2>
-              <DialogPrimitive.Close className="rounded-full p-1.5 hover:bg-gray-200">
-                <XMarkIcon className="h-5 w-5" />
+              <DialogPrimitive.Close asChild>
+                <button className="rounded-full p-1.5 hover:bg-gray-200">
+                  <XMarkIcon className="h-5 w-5" />
+                </button>
               </DialogPrimitive.Close>
             </div>
             
