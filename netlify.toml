@@ -8,7 +8,7 @@
 
 [build.environment]
   NODE_VERSION = "18.17.0"
-  NPM_VERSION = "9.8.1"
+  NPM_VERSION = "9.6.7"
   ESBUILD_BINARY_PATH = "node_modules/@netlify/esbuild-linux-64/bin/esbuild"
 
 [functions]
