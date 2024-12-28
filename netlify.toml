@@ -1,21 +1,10 @@
 [build]
-  command = """
-    npm ci
-    npx prisma generate
-    npm run build
-  """
+  command = "npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
-  NPM_VERSION = "9.6.7"
-
-[functions]
-  node_bundler = "esbuild"
-  included_files = ["prisma/**"]
+  NEXT_TELEMETRY_DISABLED = "1"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[build.processing]
-  skip_processing = false
