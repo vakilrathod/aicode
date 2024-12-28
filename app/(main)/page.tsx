@@ -1,6 +1,7 @@
 "use client";
 
 import CodeViewer from "@/components/code-viewer";
+import CodeDialog from "@/components/code-dialog";
 import { useScrollTo } from "@/hooks/use-scroll-to";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import { ArrowLongRightIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -42,23 +43,12 @@ export default function Home() {
     model: "",
     shadcn: true,
   });
-  let [ref, scrollTo] = useScrollTo();
-  let [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    [],
-  );
+  let [dialogOpen, setDialogOpen] = useState(false);
+  let [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
 
   let loading = status === "creating" || status === "updating";
 
-  async function createApp(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (status !== "initial") {
-      scrollTo({ delay: 0.5 });
-    }
-
-    setStatus("creating");
-    setGeneratedCode("");
-
+  async function handleMessage(message: string) {
     let res = await fetch("/api/generateCode", {
       method: "POST",
       headers: {
@@ -67,7 +57,7 @@ export default function Home() {
       body: JSON.stringify({
         model,
         shadcn,
-        messages: [{ role: "user", content: prompt }],
+        messages: [...messages, { role: "user", content: message }],
       }),
     });
 
@@ -92,18 +82,28 @@ export default function Home() {
       setGeneratedCode(cleanedData);
     }
 
-    setMessages([{ role: "user", content: prompt }]);
-    setInitialAppConfig({ model, shadcn });
-    setStatus("created");
+    setMessages(prev => [...prev, 
+      { role: "user", content: message },
+      { role: "assistant", content: receivedData }
+    ]);
   }
 
-  useEffect(() => {
-    let el = document.querySelector(".cm-scroller");
-    if (el && loading) {
-      let end = el.scrollHeight - el.clientHeight;
-      el.scrollTo({ top: end });
+  async function createApp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setStatus("creating");
+    setGeneratedCode("");
+
+    try {
+      await handleMessage(prompt);
+      setInitialAppConfig({ model, shadcn });
+      setStatus("created");
+      setDialogOpen(true);
+    } catch (error) {
+      console.error("Error creating app:", error);
+      setStatus("initial");
     }
-  }, [loading, generatedCode]);
+  }
 
   return (
     <main className="mt-12 flex w-full flex-1 flex-col items-center px-4 text-center sm:mt-1">
@@ -200,69 +200,23 @@ export default function Home() {
               <Switch.Root
                 className="group flex w-20 max-w-xs items-center rounded-2xl border-[6px] border-gray-300 bg-white p-1.5 text-sm shadow-inner transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 data-[state=checked]:bg-blue-500"
                 id="shadcn"
-                name="shadcn"
                 checked={shadcn}
-                onCheckedChange={(value) => setShadcn(value)}
+                onCheckedChange={setShadcn}
               >
-                <Switch.Thumb className="size-7 rounded-lg bg-gray-200 shadow-[0_1px_2px] shadow-gray-400 transition data-[state=checked]:translate-x-7 data-[state=checked]:bg-white data-[state=checked]:shadow-gray-600" />
+                <Switch.Thumb className="block size-4 rounded-full bg-white transition-transform duration-100 will-change-transform group-data-[state=checked]:translate-x-[150%]" />
               </Switch.Root>
             </div>
           </div>
         </fieldset>
       </form>
 
-      <hr className="border-1 mb-20 h-px bg-gray-700 dark:bg-gray-700" />
-
-      {status !== "initial" && (
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{
-            height: "auto",
-            overflow: "hidden",
-            transitionEnd: { overflow: "visible" },
-          }}
-          transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-          className="w-full pb-[25vh] pt-1"
-          onAnimationComplete={() => scrollTo()}
-          ref={ref}
-        >
-          <div className="relative mt-8 w-full overflow-hidden">
-            <div className="isolate">
-              <CodeViewer code={generatedCode} showEditor />
-            </div>
-
-            <AnimatePresence>
-              {loading && (
-                <motion.div
-                  initial={status === "updating" ? { x: "100%" } : undefined}
-                  animate={status === "updating" ? { x: "0%" } : undefined}
-                  exit={{ x: "100%" }}
-                  transition={{
-                    type: "spring",
-                    bounce: 0,
-                    duration: 0.85,
-                    delay: 0.5,
-                  }}
-                  className="absolute inset-x-0 bottom-0 top-1/2 flex items-center justify-center rounded-r border border-gray-400 bg-gradient-to-br from-gray-100 to-gray-300 md:inset-y-0 md:left-1/2 md:right-0"
-                >
-                  <p className="animate-pulse text-3xl font-bold">
-                    {status === "creating"
-                      ? "Building your app..."
-                      : "Updating your app..."}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      )}
+      <CodeDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        initialCode={generatedCode}
+        initialPrompt={prompt}
+        onSendMessage={handleMessage}
+      />
     </main>
   );
-}
-
-async function minDelay<T>(promise: Promise<T>, ms: number) {
-  let delay = new Promise((resolve) => setTimeout(resolve, ms));
-  let [p] = await Promise.all([promise, delay]);
-
-  return p;
 }
