@@ -17,12 +17,13 @@ export default function CodeDialog({
   onClose: () => void;
   initialCode: string;
   initialPrompt: string;
-  onSendMessage: (message: string) => Promise<void>;
+  onSendMessage: (message: string) => Promise<string>;
 }) {
   const [messages, setMessages] = useState([
     { role: "user", content: initialPrompt },
     { role: "assistant", content: "Here's what I've generated based on your request:" }
   ]);
+  const [currentCode, setCurrentCode] = useState(initialCode);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +36,8 @@ export default function CodeDialog({
     setNewMessage("");
 
     try {
-      await onSendMessage(newMessage);
+      const updatedCode = await onSendMessage(newMessage);
+      setCurrentCode(updatedCode);
       setMessages(prev => [...prev, { role: "assistant", content: "I've updated the code based on your request." }]);
     } catch (error) {
       setMessages(prev => [...prev, { role: "assistant", content: "Sorry, there was an error processing your request." }]);
@@ -96,7 +98,7 @@ export default function CodeDialog({
 
           {/* Right side - Preview */}
           <div className="w-2/3">
-            <CodeViewer code={initialCode} showEditor={false} />
+            <CodeViewer code={currentCode} showEditor={false} />
           </div>
         </Dialog.Content>
       </Dialog.Portal>

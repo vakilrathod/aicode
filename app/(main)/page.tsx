@@ -78,14 +78,16 @@ export default function Home() {
         break;
       }
       receivedData += new TextDecoder().decode(value);
-      const cleanedData = removeCodeFormatting(receivedData);
-      setGeneratedCode(cleanedData);
     }
 
+    const cleanedCode = removeCodeFormatting(receivedData);
+    setGeneratedCode(cleanedCode);
     setMessages(prev => [...prev, 
       { role: "user", content: message },
       { role: "assistant", content: receivedData }
     ]);
+
+    return cleanedCode;
   }
 
   async function createApp(e: FormEvent<HTMLFormElement>) {
