@@ -143,7 +143,7 @@ export default function Home() {
                 className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-3xl px-3 py-2 text-sm font-semibold text-blue-500 hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 disabled:text-gray-900"
               >
                 {status === "creating" ? (
-                  <LoadingDots color="black" style="large" />
+                  <LoadingDots color="#000" style="small" />
                 ) : (
                   <ArrowLongRightIcon className="-ml-0.5 size-6" />
                 )}
