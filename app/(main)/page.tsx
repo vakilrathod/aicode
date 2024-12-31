@@ -108,24 +108,24 @@ export default function Home() {
   return (
     <main className="mt-12 flex w-full flex-1 flex-col items-center px-4 text-center sm:mt-1">
       <a
-        className="mb-4 inline-flex h-7 shrink-0 items-center gap-[9px] rounded-[50px] border-[0.5px] border-solid border-[#E6E6E6] bg-[rgba(234,238,255,0.65)] bg-gray-100 px-7 py-5 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.25)]"
+        className="mb-4 inline-flex h-7 shrink-0 items-center gap-[9px] futuristic-container bg-[var(--dark-surface)] px-7 py-5"
         href="https://ai.google.dev/gemini-api/docs"
         target="_blank"
       >
         <span className="text-center">
-          Powered by <span className="font-medium">Gemini API</span>
+          Powered by <span className="font-medium text-[var(--primary-gold)]">Gemini API</span>
         </span>
       </a>
-      <h1 className="my-6 max-w-3xl text-4xl font-bold text-white sm:text-6xl">
-        Turn your <span className="text-blue-400">Vizion</span>
-        <br /> into an <span className="text-blue-400">app</span>
+      <h1 className="my-6 max-w-3xl text-4xl font-bold text-[var(--primary-gold)] sm:text-6xl">
+        Turn your <span className="text-[var(--secondary-gold)]">Vizion</span>
+        <br /> into an <span className="text-[var(--secondary-gold)]">app</span>
       </h1>
 
       <form className="w-full max-w-xl" onSubmit={createApp}>
         <fieldset disabled={loading} className="disabled:opacity-75">
           <div className="relative mt-5">
-            <div className="absolute -inset-2 rounded-[32px] bg-gray-300/50" />
-            <div className="relative flex rounded-3xl bg-white shadow-sm">
+            <div className="absolute -inset-2 rounded-[32px] bg-[var(--primary-gold)]/10" />
+            <div className="relative flex rounded-3xl bg-[var(--dark-surface)] border border-[var(--primary-gold)] shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
                 <textarea
                   rows={3}
@@ -133,17 +133,17 @@ export default function Home() {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   name="prompt"
-                  className="w-full resize-none rounded-l-3xl bg-transparent px-6 py-5 text-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
+                  className="w-full resize-none rounded-l-3xl bg-transparent px-6 py-5 text-lg text-[var(--primary-gold)] placeholder-[var(--secondary-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--primary-gold)]"
                   placeholder="Build me a calculator app..."
                 />
               </div>
               <button
                 type="submit"
                 disabled={loading}
-                className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-3xl px-3 py-2 text-sm font-semibold text-blue-500 hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 disabled:text-gray-900"
+                className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-3xl px-3 py-2 text-sm font-semibold text-[var(--primary-gold)] hover:text-[var(--secondary-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--primary-gold)] disabled:text-gray-500"
               >
                 {status === "creating" ? (
-                  <LoadingDots color="#000" style="small" />
+                  <LoadingDots color="#FFD700" style="small" />
                 ) : (
                   <ArrowLongRightIcon className="-ml-0.5 size-6" />
                 )}
@@ -152,36 +152,36 @@ export default function Home() {
           </div>
           <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:items-center sm:gap-8">
             <div className="flex items-center justify-between gap-3 sm:justify-center">
-              <p className="text-gray-500 sm:text-xs">Model:</p>
+              <p className="text-[var(--secondary-gold)] sm:text-xs">Model:</p>
               <Select.Root
                 name="model"
                 disabled={loading}
                 value={model}
                 onValueChange={(value) => setModel(value)}
               >
-                <Select.Trigger className="group flex w-60 max-w-xs items-center rounded-2xl border-[6px] border-gray-300 bg-white px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">
+                <Select.Trigger className="group flex w-60 max-w-xs items-center futuristic-container px-4 py-2 text-sm">
                   <Select.Value />
                   <Select.Icon className="ml-auto">
-                    <ChevronDownIcon className="size-6 text-gray-300 group-focus-visible:text-gray-500 group-enabled:group-hover:text-gray-500" />
+                    <ChevronDownIcon className="size-6 text-[var(--secondary-gold)] group-focus-visible:text-[var(--primary-gold)] group-enabled:group-hover:text-[var(--primary-gold)]" />
                   </Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
-                  <Select.Content className="overflow-hidden rounded-md bg-white shadow-lg">
+                  <Select.Content className="overflow-hidden rounded-md bg-[var(--dark-surface)] border border-[var(--primary-gold)] shadow-lg">
                     <Select.Viewport className="p-2">
                       {models.map((model) => (
                         <Select.Item
                           key={model.value}
                           value={model.value}
-                          className="flex cursor-pointer items-center rounded-md px-3 py-2 text-sm data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
+                          className="flex cursor-pointer items-center rounded-md px-3 py-2 text-sm data-[highlighted]:bg-[var(--dark-bg)] data-[highlighted]:outline-none"
                         >
                           <Select.ItemText asChild>
-                            <span className="inline-flex items-center gap-2 text-gray-500">
+                            <span className="inline-flex items-center gap-2 text-[var(--secondary-gold)]">
                               <div className="size-2 rounded-full bg-green-500" />
                               {model.label}
                             </span>
                           </Select.ItemText>
                           <Select.ItemIndicator className="ml-auto">
-                            <CheckIcon className="size-5 text-blue-600" />
+                            <CheckIcon className="size-5 text-[var(--primary-gold)]" />
                           </Select.ItemIndicator>
                         </Select.Item>
                       ))}
@@ -194,24 +194,24 @@ export default function Home() {
             </div>
 
             <div className="flex h-full items-center justify-between gap-3 sm:justify-center">
-              <label className="text-gray-500 sm:text-xs" htmlFor="shadcn">
+              <label className="text-[var(--secondary-gold)] sm:text-xs" htmlFor="shadcn">
                 shadcn/ui:
               </label>
               <Switch.Root
-                className="group flex w-20 max-w-xs items-center rounded-2xl border-[6px] border-gray-300 bg-white p-1.5 text-sm shadow-inner transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 data-[state=checked]:bg-blue-500"
+                className="group flex w-20 max-w-xs items-center futuristic-container p-1.5 text-sm shadow-inner transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--primary-gold)] data-[state=checked]:bg-[var(--primary-gold)]"
                 id="shadcn"
                 name="shadcn"
                 checked={shadcn}
                 onCheckedChange={(value) => setShadcn(value)}
               >
-                <Switch.Thumb className="size-7 rounded-lg bg-gray-200 shadow-[0_1px_2px] shadow-gray-400 transition data-[state=checked]:translate-x-7 data-[state=checked]:bg-white data-[state=checked]:shadow-gray-600" />
+                <Switch.Thumb className="size-7 rounded-lg bg-[var(--secondary-gold)] shadow-[0_1px_2px] shadow-black/50 transition data-[state=checked]:translate-x-7 data-[state=checked]:bg-[var(--dark-bg)]" />
               </Switch.Root>
             </div>
           </div>
         </fieldset>
       </form>
 
-      <hr className="border-1 mb-20 h-px bg-gray-700 dark:bg-gray-700" />
+      <hr className="border-1 mb-20 h-px bg-[var(--secondary-gold)]" />
 
       {status !== "initial" && (
         <motion.div
@@ -243,9 +243,9 @@ export default function Home() {
                     duration: 0.85,
                     delay: 0.5,
                   }}
-                  className="absolute inset-x-0 bottom-0 top-1/2 flex items-center justify-center rounded-r border border-gray-400 bg-gradient-to-br from-gray-100 to-gray-300 md:inset-y-0 md:left-1/2 md:right-0"
+                  className="absolute inset-x-0 bottom-0 top-1/2 flex items-center justify-center rounded-r border border-[var(--primary-gold)] bg-[var(--dark-surface)] md:inset-y-0 md:left-1/2 md:right-0"
                 >
-                  <p className="animate-pulse text-3xl font-bold">
+                  <p className="animate-pulse text-3xl font-bold text-[var(--primary-gold)]">
                     {status === "creating"
                       ? "Building your app..."
                       : "Updating your app..."}
