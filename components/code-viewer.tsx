@@ -91,6 +91,8 @@ let sharedProps = {
       "tailwind-merge": "^2.4.0",
       "tailwindcss-animate": "^1.0.7",
       vaul: "^0.9.1",
+      "react-icons": "^5.4.0",
+      "@heroicons/react": "^2.2.0",
     },
   },
 } as const;

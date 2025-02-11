@@ -28,11 +28,13 @@ export async function POST(req: Request) {
 
   const geminiModel = genAI.getGenerativeModel({model: model});
 
-  const geminiStream = await geminiModel.generateContentStream(
-    messages[0].content + systemPrompt + "\nPlease ONLY return code, NO backticks or language names. Don't start with \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`."
-  );
+  // Combine all messages with system prompt for context
+  const fullPrompt = messages.map(msg => msg.content).join("\n") + systemPrompt + 
+    "\nPlease ONLY return code, NO backticks or language names. Don't start with ```typescript or ```javascript or ```tsx or ```."
 
-  console.log(messages[0].content + systemPrompt + "\nPlease ONLY return code, NO backticks or language names. Don't start with \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`.")
+  const geminiStream = await geminiModel.generateContentStream(fullPrompt);
+
+  console.log(fullPrompt)
 
   const readableStream = new ReadableStream({
     async start(controller) {
@@ -61,12 +63,13 @@ function getSystemPrompt() {
 - Please ONLY return the full React code starting with the imports, nothing else. It's very important for my job that you only return the React code with imports. DO NOT START WITH \`\`\`typescript or \`\`\`javascript or \`\`\`tsx or \`\`\`.
 - ONLY IF the user asks for a dashboard, graph or chart, the recharts library is available to be imported, e.g. \`import { LineChart, XAxis, ... } from "recharts"\` & \`<LineChart ...><XAxis dataKey="name"> ...\`. Please only use this when needed.
 - For placeholder images, please use a <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16" />
+- For icons you can only use react-icons package or make custom icons yourself.
   `;
 
   systemPrompt += `
     NO OTHER LIBRARIES (e.g. zod, hookform) ARE INSTALLED OR ABLE TO BE IMPORTED.
   `;
-
+  
   return dedent(systemPrompt);
 }
 
