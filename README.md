@@ -9,7 +9,7 @@ This project is fully based on [llamacoder](https://github.com/Nutlope/llamacode
 
 ## Tech stack
 
-- [Gemini API](https://ai.google.dev/gemini-api/docs) to use Gemini 1.5 Pro, Gemini 1.5 Flash, and Gemini 2.0 Flash Experimental
+- [Gemini API](https://ai.google.dev/gemini-api/docs) to use Gemini 2.5 Pro, Gemini 1.5 Pro, Gemini 1.5 Flash, and Gemini 2.0 Flash Experimental
 - [Sandpack](https://sandpack.codesandbox.io/) for the code sandbox
 - Next.js app router with Tailwind
 
